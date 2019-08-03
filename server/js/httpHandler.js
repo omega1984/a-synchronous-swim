@@ -15,6 +15,18 @@ module.exports.initialize = (queue) => {
 module.exports.router = (req, res, next = ()=>{}) => {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.writeHead(200, headers);
-  res.end();
+  if (req.method === 'GET' && req.url === '/background.jpg'){
+    fs.readFile(module.exports.backgroundImageFile, function(err, data){
+      if (err){
+        res.writeHead(404, headers);
+      }
+      res.write(data);
+      res.end(data)
+    });
+  } else if (req.method === 'GET'){
+    res.end(messageQueue.dequeue());
+  }else{
+    res.end();
+  }
   next(); // invoke next() at the end of a request to help with testing!
 };
