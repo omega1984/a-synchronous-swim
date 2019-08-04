@@ -14,15 +14,19 @@ module.exports.initialize = (queue) => {
 
 module.exports.router = (req, res, next = ()=>{}) => {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  if (req.meq === 'OPTIONS') {
+    res.writeHead(200, header);
+    res.end();
+  }
   if (req.method === 'GET' && req.url === '/background.jpg'){
     fs.readFile(module.exports.backgroundImageFile, function(err, data){
       if (err){
         res.writeHead(404, headers);
       }
       res.write(data);
-      res.end(data)
+      res.end(data);
     });
-  } else if (req.method === 'GET'){
+  }else if (req.method === 'GET'){
     res.writeHead(200, headers);
     res.end(messageQueue.dequeue());
   }else{

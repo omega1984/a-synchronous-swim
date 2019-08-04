@@ -24,11 +24,12 @@ describe('server responses', () => {
   xit('should respond to a GET request for a swim command', (done) => {
     // write your test here
     let {req, res} = server.mock('/', 'GET');
+    // const commands = ['left', 'right', 'up', 'down'];
 
     httpHandler.router(req, res);
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
-    
+    // expect(commands).to.contain(res._data.toString());
     done();
   });
 
