@@ -24,13 +24,33 @@ module.exports.router = (req, res, next = ()=>{}) => {
       fs.readFile(module.exports.backgroundImageFile, function(err, data){
         if (err){
           res.writeHead(404, headers);
+        }else{
+          res.writeHead(200, headers);
+          res.write(data, 'binary');
         }
-        res.write(data);
-        res.end(data);
+        res.end();
+        next();
       });
     }else if (req.url === '/'){
       res.writeHead(200, headers);
       res.end(messageQueue.dequeue());
+    }
+  }
+  if (req.method === 'POST'){
+    if (req.url === '/background.jpg'){
+      var fileData = Buffer.alloc(0);
+
+      req.on('data', (chunk) =>{
+        fileData = Buffer.concat([fileData, chunk]);
+      })
+
+      req.on('end', () =>{
+        fs.writeFile(module.exports.backgroundImageFile, fileData, (err) => {
+          res.writeHead(err ? 404 : 201, headers);
+          res.end();
+          next();
+        })
+      })
     }
   }
 };
