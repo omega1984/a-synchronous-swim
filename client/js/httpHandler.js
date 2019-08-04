@@ -13,7 +13,7 @@
         SwimTeam.move(data);
       }
     });
-    setTimeout(fetchCommand.bind(this), 500);
+    setTimeout(fetchCommand, 300);
   }
   fetchCommand();
 
