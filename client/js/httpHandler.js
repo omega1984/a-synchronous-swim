@@ -11,11 +11,13 @@
       type: 'GET',
       success: (data) => {
         SwimTeam.move(data);
+      }, 
+      complete: () => {
+        // setTimeout(fetchCommand, 200);
       }
     });
-    setTimeout(fetchCommand, 300);
   }
-  fetchCommand();
+  setTimeout(fetchCommand, 0);
 
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
@@ -28,7 +30,7 @@
     $.ajax({
       type: 'POST',
       data: formData,
-      url: serverUrl,
+      url: '/background.jpg',
       cache: false,
       contentType: false,
       processData: false,

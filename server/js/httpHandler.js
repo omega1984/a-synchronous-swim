@@ -36,11 +36,11 @@ module.exports.router = (req, res, next = ()=>{}) => {
       res.end(messageQueue.dequeue());
     }
   }
-  if (req.method === 'POST'){
-    if (req.url === '/background.jpg'){
+  if (req.method === 'POST' && req.url === '/background.jpg'){
       var fileData = Buffer.alloc(0);
 
       req.on('data', (chunk) =>{
+        console.log('chunk received');
         fileData = Buffer.concat([fileData, chunk]);
       })
 
