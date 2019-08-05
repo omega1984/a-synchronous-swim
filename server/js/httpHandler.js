@@ -45,7 +45,8 @@ module.exports.router = (req, res, next = ()=>{}) => {
     })
 
     req.on('end', () =>{
-      fs.writeFile(module.exports.backgroundImageFile, fileData, (err) => {
+      var file = multipart.getFile(fileData);
+      fs.writeFile(module.exports.backgroundImageFile, file.data, (err) => {
         res.writeHead(err ? 404 : 201, headers);
         res.end();
         next();
